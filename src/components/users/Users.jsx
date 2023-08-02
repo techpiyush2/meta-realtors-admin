@@ -3,57 +3,47 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useListMutation } from "../../redux/services/userSlice";
+import { Toaster, toast } from "react-hot-toast";
 const UsersList = () => {
- 
   
   const columns = [
-    { field: 'id', headerName: 'ID', width: 390 },
+    { field: "id", headerName: "ID", width: 390 },
     {
-      field: 'email',
-      headerName: 'EMAIL',
+      field: "email",
+      headerName: "EMAIL",
       width: 250,
       editable: true,
     },
     {
-      field: 'password',
-      headerName: 'PASSWORD',
+      field: "password",
+      headerName: "PASSWORD",
       width: 250,
       editable: true,
     },
   ];
-  
 
-  const [isFetching, setIsFetching] = useState(false)
-  const [resData, setResData] = useState([]) 
-  
-  const [list] = useListMutation()
-  
+
+  const [list] = useListMutation();
   const [data, setData] = useState([]);
 
-  useEffect(()=>{
-    let getData = async () =>{
-      setIsFetching(true);
+  useEffect(() => {
+    let getData = async () => {
       try {
         const res = await list().unwrap();
-          
-        console.log(res);
-        
-         if(res.code === 200){
-          setData(res.data)
-           toast.success(res.message)
-         }else{
-          toast.error(res.message)
-         }
-         
+
+        if (res.code === 200) {
+          setData(res.data);
+          toast.success(res.message);
+        } else {
+          toast.error(res.message);
+        }
       } catch (error) {
-        console.log('error',error);
+        console.log("error", error);
       }
-      setIsFetching(false);
-    }
-    
-    getData()
-  },[])
-  
+    };
+
+    getData();
+  }, []);
 
   const actionColumn = [
     {
@@ -93,6 +83,8 @@ const UsersList = () => {
         rowsPerPageOptions={[9]}
         checkboxSelection
       />
+
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

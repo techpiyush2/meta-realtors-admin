@@ -1,11 +1,120 @@
 import "./properties.scss";
-import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
+import { DataGrid } from '@mui/x-data-grid';
+import { userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetPropertyListMutation } from "../../redux/services/propertySlice";
+import { Toaster, toast } from "react-hot-toast";
 
 const Properties = () => {
-  const [data, setData] = useState(userRows);
+  
+  
+  
+  const [resData, setResData] = useState([]) 
+  
+  const [getPropertyList] = useGetPropertyListMutation()
+  
+  
+
+  useEffect(()=>{
+    let getData = async () =>{
+     
+      try {
+        const res = await getPropertyList().unwrap();
+      
+        
+         if(res.code === 200){
+          setResData(res.data)
+           toast.success(res.message)
+         }else{
+          toast.error(res.message)
+         }
+         
+      } catch (error) {
+        console.log('error',error);
+      }
+    }
+    
+    getData()
+  },[])
+
+
+  
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+      field: 'title',
+      headerName: 'Title',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'address',
+      headerName: 'Address',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'contactNo',
+      headerName: 'Contact No',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'size',
+      headerName: 'Size',
+      width: 150,
+      editable: true,
+    },{
+      field: 'bedrooms',
+      headerName: 'Bedrooms',
+      width: 100,
+      editable: true,
+    },{
+      field: 'bathrooms',
+      headerName: 'Bathrooms',
+      width: 100,
+      editable: true,
+    },
+    {
+      field: 'type',
+      headerName: 'Type',
+      type: 'number',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'price',
+      headerName: 'Price',
+      type: 'number',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'parking',
+      headerName: 'Parking',
+      type: 'number',
+      width: 110,
+      editable: true,
+    },
+    {
+      field: 'ownerName',
+      headerName: 'Owner Name',
+      type: 'number',
+      width: 110,
+      editable: true,
+    },
+  
+  ];
+  
+ 
+  
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -43,12 +152,14 @@ const Properties = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
-        columns={userColumns.concat(actionColumn)}
+        rows={resData}
+        columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
       />
+      <Toaster position="top-right" reverseOrder={false} />
+      
     </div>
   );
 };

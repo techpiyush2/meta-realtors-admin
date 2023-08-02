@@ -22,14 +22,11 @@ export const propertySlice = createApi({
         body: data,
       }),
     }),
-    getAgencyList: builder.query({
-      query: (phrase) => `/agencies/list?query=${phrase}`,
-    }),
+  
   }),
 });
 
 export const {
   useGetPropertyListMutation,
   useGetPropertyDetailsMutation,
-  useGetAgencyListQuery,
 } = propertySlice;
