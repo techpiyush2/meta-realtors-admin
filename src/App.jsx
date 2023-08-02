@@ -2,15 +2,15 @@ import { Routes, Route, redirect } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import Home from "./pages/home/Home";
 // import Login from "./pages/login/Login";
-import List from "./pages/list/List";
+import List from "./pages/list/UsersList";
 import Single from "./pages/single/Single";
-import New from "./pages/new/New";
-
+import NewUser from "./pages/new/NewUser";
+import PropertiesList from './pages/list/PropertiesList';
+import BlogList from './pages/list/BlogsList';
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Layout from "./components/Layout/Layout";
 
-import AboutUs from "./pages/AboutUs"
 import { productInputs, userInputs } from "./formSource";
 
 function App() {
@@ -35,21 +35,26 @@ else{
               <Route path=":userId" element={<Single />} />
               <Route
                 path="new"
-                element={<New inputs={userInputs} title="Add New User" />}
+                element={<NewUser inputs={userInputs} title="Add New User" />}
               />
             </Route>
-            <Route path="products">
-              <Route index element={<List />} />
-              <Route path=":productId" element={<Single />} />
+            <Route path="properties">
+              <Route index element={<PropertiesList />} />
+              <Route path=":propertyId" element={<Single />} />
               <Route
                 path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
+                element={<NewUser inputs={userInputs} title="Add New Product" />}
+              />
+            </Route>
+            <Route path="blogs">
+              <Route index element={<BlogList />} />
+              <Route path=":propertyId" element={<Single />} />
+              <Route
+                path="new"
+                element={<NewUser inputs={productInputs} title="Add New Product" />}
               />
             </Route>
           </Route>
-        <Route path="/home" element={<AboutUs/>}/>
-  
-       
 
      <Route path="*"  element= {<NotFound/>}/>
       </Routes>

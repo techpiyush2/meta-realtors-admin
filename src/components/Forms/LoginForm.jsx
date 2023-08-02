@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoginImage from "../../assets/Signup.jpg";
+
 import { useLoginMutation } from "../../redux/services/userSlice";
 import { login, setActiveUser } from "../../redux/features/authSlice";
 import { useDispatch } from "react-redux";
@@ -35,7 +35,7 @@ const LoginForm = () => {
       }
       dispatch(login(user.data.token));
       dispatch(setActiveUser(user.data.userInfo.email));
-      navigate("/home");
+      navigate("/");
    
     } catch (error) {
       console.log('error something', error);

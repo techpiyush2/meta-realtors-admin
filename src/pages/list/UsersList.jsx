@@ -1,5 +1,5 @@
 import "./list.scss"
-import Datatable from "../../components/datatable/Datatable"
+import Datatable from "../../components/users/Users"
 
 const List = () => {
   return (

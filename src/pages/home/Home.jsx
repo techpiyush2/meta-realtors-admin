@@ -6,7 +6,7 @@ import Table from "../../components/table/Table";
 
 const Home = () => {
   return (
-    <div className="home">
+    <div className="home my-16">
       <div className="homeContainer">
         <div className="widgets">
           <Widget type="user" />

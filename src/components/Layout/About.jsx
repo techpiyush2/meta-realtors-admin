@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import OurServiceImage from "../../assets/hero2.png";
 import { AiFillCheckCircle } from "react-icons/ai";
 
 const About = () => {
@@ -9,7 +8,6 @@ const About = () => {
         <div className="px-auto lg:px-16 mb-16">
           <h1 className="font-Poppins font-bold text-3xl text-center mb-4">
           <span className="text-blue">Meta Realtors</span> - Making Property searching a enjoyable experience.
-           
           </h1>
           <p className="text-left text-ash">
           Meta Realtors is the best Real Estate Company of Mohali. We operate in all areas of Tri City, Starting from Mohali, Kharar, Kurali, Zirakpur, Panchkula and Chandigarh. We are into Real Estate business since 5 years. We majorly deals in investments and self-purchase of

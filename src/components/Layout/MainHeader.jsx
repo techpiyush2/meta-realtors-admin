@@ -6,6 +6,7 @@ import Logo from "../../assets/Logo.png";
 import { TiThMenu } from "react-icons/ti";
 import { CgClose } from "react-icons/cg";
 import { FaUser } from "react-icons/fa";
+import { Dashboard } from '@mui/icons-material';
 
 const MainHeader = () => {
   const [isMobileMenu, setIsMobileMenu] = useState(false);
@@ -44,21 +45,26 @@ const MainHeader = () => {
     <div className="w-11/12 max-w-2xl mt-4 lg:hidden">
       <ul className=" flex-col px-6 text-ash  ">
         <li className="py-3  hover:text-blue" >
+          <NavLink to="/dashboard" activeclassname="text-blue" onClick={menuHandler}>
+            Dashboard
+          </NavLink>
+        </li>
+        <li className="py-3  hover:text-blue" >
           <NavLink to="/home" activeclassname="text-blue" onClick={menuHandler}>
-            Home
+            Users
           </NavLink>
         </li>
-        <li className="py-3  hover:text-blue">
-          <NavLink
-            to="/login"
-            activeclassname="text-blue"
-            onClick={menuHandler}
-          >
-            Login
+        <li className="py-3  hover:text-blue" >
+          <NavLink to="/home" activeclassname="text-blue" onClick={menuHandler}>
+            Properties
           </NavLink>
         </li>
-        
-
+        <li className="py-3  hover:text-blue" >
+          <NavLink to="/home" activeclassname="text-blue" onClick={menuHandler}>
+           Blogs
+          </NavLink>
+        </li>
+  
       </ul>
       <div className="flex justify-between py-3 pl-6">
         <button
@@ -93,16 +99,25 @@ const MainHeader = () => {
         </div>
         <ul className=" hidden lg:flex px-2 text-ash ">
           <li className=" hover:text-blue">
-            <NavLink to="/home" activeclassname="text-blue" className="px-4">
-              Home
+            <NavLink to="/" activeclassname="text-blue" className="px-4">
+              Dashboard
             </NavLink>
           </li>
           <li className=" hover:text-blue">
-            <NavLink to="/brands" activeclassname="text-blue" className="px-4">
-              Our brands
+            <NavLink to="/users" activeclassname="text-blue" className="px-4">
+              Users
             </NavLink>
           </li>
- 
+          <li className=" hover:text-blue">
+            <NavLink to="/properties" activeclassname="text-blue" className="px-4">
+              Properties
+            </NavLink>
+          </li>
+          <li className=" hover:text-blue">
+            <NavLink to="/blogs" activeclassname="text-blue" className="px-4">
+              Blogs
+            </NavLink>
+          </li>
         </ul>
         <div className="pl-18 hidden lg:flex ">
           <button

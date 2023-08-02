@@ -11,9 +11,9 @@ export const userApiSlice
         body: data,
       }),
     }),
-    register: builder.mutation({
+    list: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/signUp`,
+        url: `${USERS_URL}/users-list`,
         method: 'POST',
         body: data,
       }),
@@ -21,5 +21,5 @@ export const userApiSlice
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = userApiSlice
+export const { useListMutation, useLoginMutation } = userApiSlice
 ;
