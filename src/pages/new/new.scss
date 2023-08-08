@@ -14,8 +14,10 @@
       display: flex;
 
       h1 {
-        color: lightgray;
-        font-size: 20px;
+        font-size: 30px;
+        font-weight: bold;
+        color:teal ;
+        text-align: center;
       }
 
       .left {
@@ -38,14 +40,16 @@
           flex-wrap: wrap;
           gap: 30px;
           justify-content: space-around;
+          width: 50%;
 
           .formInput {
-            width: 40%;
+            width: 100%;
 
             label {
               display: flex;
               align-items: center;
               gap: 10px;
+             
 
               .icon {
                 cursor: pointer;
@@ -58,6 +62,7 @@
               border: none;
               border-bottom: 1px solid gray;
             }
+         
           }
 
           button {

@@ -70,9 +70,9 @@ const UsersList = () => {
   return (
     <div className="datatable my-20">
       <div className="datatableTitle">
-        Add New User
+      Users List
         <Link to="/users/new" className="link">
-          Add New
+          Add New New
         </Link>
       </div>
       <DataGrid

@@ -8,21 +8,15 @@ import { Toaster, toast } from "react-hot-toast";
 
 const Properties = () => {
   
-  
-  
   const [resData, setResData] = useState([]) 
   
   const [getPropertyList] = useGetPropertyListMutation()
   
-  
-
   useEffect(()=>{
     let getData = async () =>{
      
       try {
         const res = await getPropertyList().unwrap();
-      
-        
          if(res.code === 200){
           setResData(res.data)
            toast.success(res.message)
@@ -37,7 +31,6 @@ const Properties = () => {
     
     getData()
   },[])
-
 
   
   const columns = [
@@ -145,9 +138,9 @@ const Properties = () => {
   return (
     <div className="datatable my-20">
       <div className="datatableTitle">
-        Add New User
+        Property List
         <Link to="/users/new" className="link">
-          Add New
+          Add New Property
         </Link>
       </div>
       <DataGrid
