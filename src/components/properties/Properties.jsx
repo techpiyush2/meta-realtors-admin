@@ -138,8 +138,11 @@ const Properties = () => {
   return (
     <div className="datatable my-20">
       <div className="datatableTitle">
-        Property List
-        <Link to="/users/new" className="link">
+      Properties List
+        <Link to="/properties/new" className="link">
+          Add New Property
+        </Link>
+        <Link to="/properties/new" className="link">
           Add New Property
         </Link>
       </div>

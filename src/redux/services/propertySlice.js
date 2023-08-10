@@ -22,11 +22,18 @@ export const propertySlice = createApi({
         body: data,
       }),
     }),
-  
+    createProperty: builder.mutation({
+      query: (data) => ({
+        url: `property/details`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
 export const {
   useGetPropertyListMutation,
   useGetPropertyDetailsMutation,
+  useCreatePropertyMutation,
 } = propertySlice;

@@ -113,7 +113,6 @@ const NewUser = () => {
                 style={{ display: "none" }}
               />
             </div>
-
               <div className="formInput focus:border:blue" key={1}>
                 <label>Title</label>
                 <input type="text" placeholder="title" ref={titleRef} />
@@ -127,7 +126,6 @@ const NewUser = () => {
                   ref={descriptionRef}
                 />
               </div>
-
               <div className="formInput focus:border:blue" key={3}>
                 <label>Blog Type</label>
                 <Select
