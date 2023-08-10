@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toaster,toast } from "react-hot-toast";
 import { useLoginMutation } from "../../redux/services/userSlice";
-import { login, setActiveUser } from "../../redux/features/authSlice";
+import { login, setActiveUser, setActiveUserId } from "../../redux/features/authSlice";
 import { useDispatch } from "react-redux";
 import logo from '../../assets/logo.png'
 const LoginForm = () => {
@@ -40,6 +40,7 @@ const LoginForm = () => {
       }
       dispatch(login(user.data.token));
       dispatch(setActiveUser(user.data.userInfo.email));
+      dispatch(setActiveUserId(user.data.userInfo._id));
       navigate("/");
    
     } catch (error) {

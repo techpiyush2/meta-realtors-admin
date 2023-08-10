@@ -24,7 +24,7 @@ export const propertySlice = createApi({
     }),
     createProperty: builder.mutation({
       query: (data) => ({
-        url: `property/details`,
+        url: `property/create`,
         method: 'POST',
         body: data,
       }),

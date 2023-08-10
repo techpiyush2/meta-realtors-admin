@@ -1,6 +1,6 @@
 import "./new.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState,useRef } from "react";
+import { useState } from "react";
 import {
   useCreatePropertyMutation,
 } from "../../redux/services/propertySlice";
@@ -8,16 +8,48 @@ import { Toaster, toast } from "react-hot-toast";
 import environment from "../../redux/environment";
 import axios from "axios";
 import Select from "react-select";
-
+import { useSelector } from "react-redux";
 
 const NewUser = () => {
   const [createProperty] = useCreatePropertyMutation();
   const [image, setImage] = useState("");
-  const [imageData, setImageData] = useState("");
-  const [type, setType] = useState({});
-  let titleRef = useRef();
-  let descriptionRef = useRef();
+  const [type, setType] = useState();
+  const [havePark, setHavePark] = useState();
+  const [haveParking, setHaveParking] = useState();
+  const [selectedValue, setSelectedValue] = useState([]);
   
+  const userId = useSelector((state) => state.auth.userId);
+  
+  
+  let [form,setForm] = useState({
+     title: "",
+    createdby_id: "",
+     description: "",
+    images: "",
+     type: "",
+    bedrooms: "",
+    bathrooms: "",
+    size: "",
+    price: "",
+    parking: "",
+    parkOrGarden: "",
+    features: [],
+    address: "",
+    contactNo: "",
+    ownerName: "",
+  })
+ 
+  
+  const update = event => {
+    const target = event.currentTarget
+
+    setForm({
+        ...form,
+        [target.name]: target.type === 'checkbox'
+            ? target.checked
+            : target.value
+    })
+}
   
   const options = [
     { value: "VILLA", label: "VILLA" },
@@ -26,26 +58,46 @@ const NewUser = () => {
     { value: "PLOT", label: "PLOT" },
   ];
   
+  const options2 = [
+    { value: true, label: "Available" },
+    { value: false, label: "Not Available" },
+  ];
+  const options3 = [
+    { value: "Parking", label: "Parking" },
+    { value: "Waterfront", label: "Waterfront" },
+    { value: "Landscaping", label: "Landscaping" },
+    { value: "Views", label: "Views" },
+    { value: "Appliances", label: "Appliances" },
+    { value: "Historic", label: "Historic" },
+    { value: "Energy", label: "Energy" },
+    { value: "Construction", label: "Construction" },
+    { value: "Finishes", label: "Finishes" },
+    { value: "Storage", label: "Storage" },
+    { value: "Pool", label: "Pool" },
+    { value: "Furnished", label: "Furnished" },
+    { value: "Tenancy", label: "Tenancy" },
+    { value: "Exclusive", label: "Exclusive" },
+  ];
   
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    console.log(image);
 
-    let  FormData = {
-      image : imageData,
+  const submit = async (event) => {
+    console.log('werdwr',userId);
+    event.preventDefault()
+    form = {...form,
+      Features : selectedValue,
+      parking : haveParking,
+      parkOrGarden : havePark,
+      createdby_id : userId,
       type : type,
-      title : titleRef.current.value,
-      description : descriptionRef.current.value
-      
+      images : [...image]
     }
-    console.log(FormData);
+    console.log(form);
 
     try {
-      const res = await createProperty(FormData).unwrap();
+      const res = await createProperty(form).unwrap();
       if(res.code===200){
         toast.success(res.message)
-       titleRef.current.value = ""
-     descriptionRef.current.value = ""
+   
       }else{
         toast.error(res.message)
 
@@ -63,16 +115,17 @@ const NewUser = () => {
   
   const imageUpload = (e) => {
     const fd = new FormData();
-    fd.append("file",e);
-    fd.append("type", "BLOG");
+  
+      fd.append("file", e);
+
+    
     axios
-      .post(environment.baseUrl + "api/v1/blog/uploadImage", fd)
+      .post(environment.baseUrl + "api/v1/property/uploadImage", fd)
       .then((res) => {
         console.log(res);
         if (res.data.code === 200) {
           toast.success(res.data.message);
           setImage(res.data.data.imagePath)
-          setImageData(res.data.data.imagePath)
         } else {
           toast.error(res.data.message);
         }
@@ -82,25 +135,29 @@ const NewUser = () => {
       });
   };
   
+  const featureHandler = (e) => {
+    setSelectedValue(Array.isArray(e) ? e.map(x => x.value) : []);
+  }
+  
   return (
-    <div className="new my-16">
+    <div className="new my-16 ">
       <div className="newContainer">
         <div className="top">
-          <h1>Add New Blog</h1>
+          <h1>Add New Property</h1>
         </div>
         <div className="bottom">
           <div className="left">
           <img
               src={
                 image
-                  ? environment.baseUrl+ 'upload/blogs/'+ image
+                  ? environment.baseUrl+ 'upload/properties/'+ image
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={submit}>
             
             <div className="formInput focus:border:blue">
               <label htmlFor="file-image">
@@ -109,6 +166,7 @@ const NewUser = () => {
               <input
                 type="file"
                 id="file-image"
+                multiple
                 accept="image/*"
                 onChange={(e) => imageUpload(e.target.files[0])}
                 style={{ display: "none" }}
@@ -117,18 +175,19 @@ const NewUser = () => {
 
               <div className="formInput focus:border:blue" key={1}>
                 <label>Title</label>
-                <input type="text" placeholder="title" />
+                <input type="text" name="title" placeholder="title"  onChange={update} />
               </div>
 
               <div className="formInput focus:border:blue" key={2}>
                 <label>Description</label>
-                <input type="text" placeholder="description" />
+                <input type="text" name="description" placeholder="description"  onChange={update} />
               </div>
 
               <div className="formInput focus:border:blue" key={3}>
                 <label>Type</label>
                 <Select
                   options={options}
+                  name="type"
                   onChange={(data) => {
                     setType(data.value);
                   }}
@@ -136,42 +195,71 @@ const NewUser = () => {
               </div>
               <div className="formInput focus:border:blue" key={4}>
                 <label>Address</label>
-                <input type="text" placeholder="address" />
+                <input type="text" name="address" placeholder="address"   onChange={update}/>
               </div>
               <div className="formInput focus:border:blue" key={5}>
                 <label>Contact No</label>
                 <input
                   type="number"
                   placeholder="contact no"
+                  name="contactNo"
+                  onChange={update}
                 />
               </div>
               <div className="formInput focus:border:blue" key={6}>
                 <label>Size</label>
-                <input type="number" placeholder="size"/>
+                <input type="number" name="size" placeholder="size"  onChange={update}/>
               </div>
               <div className="formInput focus:border:blue" key={7}>
                 <label>Bedrooms</label>
-                <input type="number" placeholder="bedrooms"/>
+                <input type="number" name="bedrooms" placeholder="bedrooms"  onChange={update}/>
               </div>
               <div className="formInput focus:border:blue" key={8}>
                 <label>Bathrooms</label>
-                <input type="number" placeholder="bathrooms"/>
+                <input type="number" name="bathrooms" placeholder="bathrooms"  onChange={update}/>
               </div>
               <div className="formInput focus:border:blue" key={9}>
                 <label>Price</label>
-                <input type="number" placeholder="price"/>
+                <input type="number" name="price" placeholder="price"  onChange={update} />
               </div>
               <div className="formInput focus:border:blue" key={10}>
                 <label>Owner Name</label>
-                <input type="number" placeholder="owner name"/>
+                <input type="text" name="ownerName" placeholder="owner name"  onChange={update}/>
+              </div>
+              <div className="formInput focus:border:blue" key={11}>
+                <label>Features</label>
+                <Select
+                  options={options3}
+                  isMulti
+                  value={options3.filter(obj => selectedValue.includes(obj.value))} 
+                  classNamePrefix="select"
+                  onChange={featureHandler}
+                  isClearable
+                />
+              </div>
+              <div className="formInput focus:border:blue " key={12}>
+                <label>Parking</label>
+                <Select
+                  options={options2}
+                  onChange={(data) => {
+                    setHaveParking(data.value);
+                  }}
+                />
+              </div>
+              <div className="formInput focus:border:blue" key={13}>
+                <label>Park or Garden</label>
+                <Select
+                  options={options2}
+                  onChange={(data) => {
+                  setHavePark(data.value);
+                  }}
+                />
               </div>
               <button>Add</button>
             </form>
           </div>
         </div>
         <Toaster position="top-right" reverseOrder={false} />
-
-
       </div>
 
     </div>
