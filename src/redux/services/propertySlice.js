@@ -29,6 +29,13 @@ export const propertySlice = createApi({
         body: data,
       }),
     }),
+    deleteProperty: builder.mutation({
+      query: (data) => ({
+        url: `property/delete`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -36,4 +43,5 @@ export const {
   useGetPropertyListMutation,
   useGetPropertyDetailsMutation,
   useCreatePropertyMutation,
+  useDeletePropertyMutation,
 } = propertySlice;

@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useGetPropertyListMutation } from "../../redux/services/propertySlice";
+import { useGetPropertyListMutation,useDeletePropertyMutation } from "../../redux/services/propertySlice";
 import { Toaster, toast } from "react-hot-toast";
 
 const Properties = () => {
@@ -11,6 +11,24 @@ const Properties = () => {
   const [resData, setResData] = useState([]) 
   
   const [getPropertyList] = useGetPropertyListMutation()
+  const [deleteProperty] = useDeletePropertyMutation()
+  const [callApi, setCallApi] = useState(false);
+  
+  
+  const handleDelete = async (id) =>{
+    try {
+      const res = await deleteProperty({id}).unwrap();
+
+      if (res.code === 200) {
+        toast.success(res.message);
+        setCallApi(true)
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
   
   useEffect(()=>{
     let getData = async () =>{
@@ -30,7 +48,7 @@ const Properties = () => {
     }
     
     getData()
-  },[])
+  },[callApi])
 
   
   const columns = [
@@ -109,9 +127,6 @@ const Properties = () => {
  
   
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
 
   const actionColumn = [
     {

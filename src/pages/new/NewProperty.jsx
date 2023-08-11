@@ -81,7 +81,8 @@ const NewUser = () => {
   
 
   const submit = async (event) => {
-    console.log('werdwr',userId);
+     let image2 = []
+     image2[0] = image
     event.preventDefault()
     form = {...form,
       Features : selectedValue,
@@ -89,18 +90,18 @@ const NewUser = () => {
       parkOrGarden : havePark,
       createdby_id : userId,
       type : type,
-      images : [...image]
+      images :  image2
     }
     console.log(form);
 
     try {
       const res = await createProperty(form).unwrap();
       if(res.code===200){
+        
         toast.success(res.message)
    
       }else{
         toast.error(res.message)
-
       }
       if (!res) {
         throw new Error("Data Fetch Failed!");

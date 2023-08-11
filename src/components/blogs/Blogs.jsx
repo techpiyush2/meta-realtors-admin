@@ -1,9 +1,8 @@
 import "./blogs.scss";
 import { DataGrid } from '@mui/x-data-grid';
-import { userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useBlogListMutation } from "../../redux/services/blogSlice";
+import { useBlogListMutation,useBlogDeleteMutation } from "../../redux/services/blogSlice";
 import { Toaster, toast } from "react-hot-toast";
 
 const Blogs = () => {
@@ -11,9 +10,28 @@ const Blogs = () => {
   
   const [isFetching, setIsFetching] = useState(false)
   const [resData, setResData] = useState([]) 
+  const [callApi, setCallApi] = useState(false);
+  
+
   
   const [blogList] = useBlogListMutation()
+  const [blogDelete] = useBlogDeleteMutation()
   
+  const handleDelete = async (id) =>{
+    try {
+      const res = await blogDelete({id}).unwrap();
+
+      if (res.code === 200) {
+        
+        toast.success(res.message);
+        setCallApi(true)
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
   
 
   useEffect(()=>{
@@ -38,7 +56,7 @@ const Blogs = () => {
     }
     
     getData()
-  },[])
+  },[callApi])
   
 
   
@@ -72,10 +90,6 @@ const Blogs = () => {
     
   ];
   
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
 
   const actionColumn = [
     {

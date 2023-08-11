@@ -2,7 +2,7 @@ import "./users.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useListMutation } from "../../redux/services/userSlice";
+import { useListMutation, useDeleteUserMutation } from "../../redux/services/userSlice";
 import { Toaster, toast } from "react-hot-toast";
 const UsersList = () => {
   
@@ -24,7 +24,25 @@ const UsersList = () => {
 
 
   const [list] = useListMutation();
+  const [deleteUser] = useDeleteUserMutation();
   const [data, setData] = useState([]);
+  const [callApi, setCallApi] = useState(false);
+  
+  const handleDelete = async (id) =>{
+    try {
+      const res = await deleteUser({id}).unwrap();
+
+      if (res.code === 200) {
+        toast.success(res.message);
+        setCallApi(true)
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+  
 
   useEffect(() => {
     let getData = async () => {
@@ -43,7 +61,7 @@ const UsersList = () => {
     };
 
     getData();
-  }, []);
+  }, [callApi]);
 
   const actionColumn = [
     {

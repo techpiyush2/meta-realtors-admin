@@ -28,7 +28,15 @@ export const blogApiSlice = apiSlice.injectEndpoints({
       }),
       
     }),
+    blogDelete: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/delete`,
+        method: 'POST',
+        body: data,
+      }),
+      
+    }),
   }),
 });
 
-export const { useBlogListMutation, useBlogCreateMutation, useBlogUploadMutation } = blogApiSlice;
+export const { useBlogListMutation, useBlogCreateMutation, useBlogUploadMutation, useBlogDeleteMutation } = blogApiSlice;
