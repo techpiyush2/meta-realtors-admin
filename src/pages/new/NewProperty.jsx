@@ -1,6 +1,6 @@
 import "./new.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useCreatePropertyMutation,
 } from "../../redux/services/propertySlice";
@@ -17,6 +17,9 @@ const NewUser = () => {
   const [havePark, setHavePark] = useState();
   const [haveParking, setHaveParking] = useState();
   const [selectedValue, setSelectedValue] = useState([]);
+  const [filesUploads, setFilesUploads] = useState([])
+  const [filesUploadsProgress, setFilesUploadsProgress] = useState(0)
+  const [getFiles, setGetFiles] = useState([])
   
   const userId = useSelector((state) => state.auth.userId);
   
@@ -78,19 +81,18 @@ const NewUser = () => {
     { value: "Tenancy", label: "Tenancy" },
     { value: "Exclusive", label: "Exclusive" },
   ];
-  
 
   const submit = async (event) => {
-     let image2 = []
-     image2[0] = image
+   
     event.preventDefault()
+    console.log(image);
     form = {...form,
       Features : selectedValue,
       parking : haveParking,
       parkOrGarden : havePark,
       createdby_id : userId,
       type : type,
-      images :  image2
+      images :  image
     }
     console.log(form);
 
@@ -114,19 +116,25 @@ const NewUser = () => {
     }
   };
   
-  const imageUpload = (e) => {
-    const fd = new FormData();
+  useEffect(()=>{
+    imageUpload()
+  },[filesUploads])
   
-      fd.append("file", e);
-
+  
+  const imageUpload = () => {
+       const formData = new FormData()
+  
+      for(let i = 0; i < filesUploads.length; i++){
+        formData.append('file', filesUploads[i])
+      }
     
     axios
-      .post(environment.baseUrl + "api/v1/property/uploadImage", fd)
+      .post(environment.baseUrl + "api/v1/property/uploadImage", formData)
       .then((res) => {
-        console.log(res);
+        console.log('lkjwgdjwegdlgbdiugd',res);
         if (res.data.code === 200) {
           toast.success(res.data.message);
-          setImage(res.data.data.imagePath)
+          setImage(res.data.data)
         } else {
           toast.error(res.data.message);
         }
@@ -169,7 +177,7 @@ const NewUser = () => {
                 id="file-image"
                 multiple
                 accept="image/*"
-                onChange={(e) => imageUpload(e.target.files[0])}
+                onChange={(e)=>setFilesUploads(e.target.files)}
                 style={{ display: "none" }}
               />
             </div>
