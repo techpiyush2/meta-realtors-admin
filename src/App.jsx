@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Layout from "./components/Layout/Layout";
 import NewProperty from "./pages/new/NewProperty";
+// import './style.scss'r4
 
 function App() {
   
