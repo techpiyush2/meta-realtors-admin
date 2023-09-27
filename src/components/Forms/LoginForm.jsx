@@ -28,24 +28,25 @@ const LoginForm = () => {
 
     try {
       const user = await logIn(formData).unwrap();
-       if(user.code===200){
+       if(user.data.userInfo.role === 'ADMIN'){
         toast.success(user.message)
        }else{
         toast.error(user.message)
-
        }
        
       if (!user) {
         throw new Error("Authentication Failed!");
       }
-      dispatch(login(user.data.token));
-      dispatch(setActiveUser(user.data.userInfo.email));
-      dispatch(setActiveUserId(user.data.userInfo._id));
-      navigate("/");
+      
+      if(user.data.userInfo.role === 'ADMIN'){
+        dispatch(login(user.data.token));
+        dispatch(setActiveUser(user.data.userInfo.email));
+        dispatch(setActiveUserId(user.data.userInfo._id));
+        navigate("/");
+      }
    
     } catch (error) {
       console.log('error something', error);
-      toast.error('Network Error')
     }
     setIsLoading(false);
   };

@@ -1,16 +1,16 @@
 import "./properties.scss";
 import { DataGrid } from '@mui/x-data-grid';
-import { userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useGetPropertyListMutation,useDeletePropertyMutation } from "../../redux/services/propertySlice";
+import { useGetPropertyListMutation,useDeletePropertyMutation,useChangeStatusMutation } from "../../redux/services/propertySlice";
 import { Toaster, toast } from "react-hot-toast";
 
+        
 const Properties = () => {
   
   const [resData, setResData] = useState([]) 
-  
   const [getPropertyList] = useGetPropertyListMutation()
+  const [changeStatus] = useChangeStatusMutation()
   const [deleteProperty] = useDeletePropertyMutation()
   const [callApi, setCallApi] = useState(false);
   
@@ -30,13 +30,33 @@ const Properties = () => {
     }
   }
   
+  const handleChange = async (data) =>{
+    
+    console.log(data);
+    
+    try {
+      const res = await changeStatus({id : data._id, isActive : data.isActive}).unwrap();
+
+      if (res.code === 200) {
+        toast.success(res.message);
+        setCallApi(true)
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+  
+  
   useEffect(()=>{
     let getData = async () =>{
      
       try {
-        const res = await getPropertyList({isActive : true}).unwrap();
+        const res = await getPropertyList().unwrap();
          if(res.code === 200){
           setResData(res.data)
+          
            toast.success(res.message)
          }else{
           toast.error(res.message)
@@ -118,13 +138,38 @@ const Properties = () => {
       field: 'ownerName',
       headerName: 'Owner Name',
       type: 'number',
-      width: 110,
+      width: 210,
       editable: true,
     },
   
   ];
 
   const actionColumn = [
+    {
+      field: "isActive",
+      headerName: "Change",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="cellAction mx-6">
+        
+              {params.row.isActive ? 
+            <div
+              className= "cursor-pointer text-white bg-green-700 bg-blue focus:outline-none focus:ring-4 focus:ring-blue font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              onClick={() => handleChange(params.row)}
+            >
+              Active
+              </div> :      <div
+              className= "cursor-pointer text-white bg-green-700 bg-orange focus:outline-none focus:ring-4 focus:ring-orange font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              onClick={() => handleChange(params.row)}
+            >
+              unactive
+              </div> }
+            
+          </div>
+        );
+      },
+    },
     {
       field: "action",
       headerName: "Action",
@@ -143,6 +188,7 @@ const Properties = () => {
         );
       },
     },
+  
   ];
   return (
     <div className="datatable my-20">

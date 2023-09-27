@@ -7,9 +7,11 @@ import Single from "./pages/single/Single";
 import NewUser from "./pages/new/NewUser";
 import NewBlog from "./pages/new/NewBlog";
 import PropertiesList from "./pages/list/PropertiesList";
+import NewProperties from "./pages/list/NewProperties";
 import BlogList from "./pages/list/BlogsList";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
+import ContactList from "./pages/list/ContactList";
 import Layout from "./components/Layout/Layout";
 import NewProperty from "./pages/new/NewProperty";
 // import './style.scss'r4
@@ -38,6 +40,7 @@ function App() {
             </Route>
             <Route path="properties">
               <Route index element={<PropertiesList />} />
+              <Route path="new-list" element={<NewProperties />} />
               <Route path=":propertyId" element={<Single />} />
               <Route path="new" element={<NewProperty />} />
             </Route>
@@ -46,9 +49,11 @@ function App() {
               <Route path=":blogId" element={<Single />} />
               <Route path="new" element={<NewBlog />} />
             </Route>
+            <Route path="messages">
+              <Route index element={<ContactList />} />
+            </Route>
           </Route>
-
-          <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     );

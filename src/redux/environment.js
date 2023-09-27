@@ -1,5 +1,6 @@
 export default {
-    // baseUrl: 'https://metarealtor.onrender.com/',
-    baseUrl: 'http://3.25.219.64:4000/',
-  }
-  
+    // baseUrl: 'https://admin.metarealtors.in/',
+    baseUrl: 'http://localhost:5000/',
+
+//   
+}

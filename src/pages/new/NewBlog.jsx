@@ -27,8 +27,8 @@ const NewUser = () => {
       type : type,
       title : titleRef.current.value,
       description : descriptionRef.current.value
-      
     }
+    
     console.log(FormData);
 
     try {

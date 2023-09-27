@@ -1,8 +1,8 @@
-import "./blogs.scss";
+import "./ContactUs.scss";
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useBlogListMutation,useBlogDeleteMutation } from "../../redux/services/blogSlice";
+import { useMessagesListMutation,useMessageDeleteMutation } from "../../redux/services/contactUs";
 import { Toaster, toast } from "react-hot-toast";
 
 const Blogs = () => {
@@ -12,10 +12,8 @@ const Blogs = () => {
   const [resData, setResData] = useState([]) 
   const [callApi, setCallApi] = useState(false);
   
-
-  
-  const [blogList] = useBlogListMutation()
-  const [blogDelete] = useBlogDeleteMutation()
+  const [blogList] = useMessagesListMutation()
+  const [blogDelete] = useMessageDeleteMutation()
   
   const handleDelete = async (id) =>{
     try {
@@ -63,26 +61,26 @@ const Blogs = () => {
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'title',
-      headerName: 'Title',
+      field: 'name',
+      headerName: 'Name',
       width: 150,
       editable: true,
     },
     {
-      field: 'description',
-      headerName: 'Description',
+      field: 'email',
+      headerName: 'Email',
       width: 150,
       editable: true,
     },
     {
-      field: 'image',
-      headerName: 'Image',
+      field: 'mobileNo',
+      headerName: 'Mobile No',
       width: 150,
       editable: true,
     },
     {
-      field: 'type',
-      headerName: 'Blog Type',
+      field: 'message',
+      headerName: 'Messages',
       type: 'number',
       width: 150,
       editable: true,

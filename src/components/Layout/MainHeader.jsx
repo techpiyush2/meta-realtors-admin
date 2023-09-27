@@ -60,11 +60,20 @@ const MainHeader = () => {
           </NavLink>
         </li>
         <li className="py-3  hover:text-blue" >
+          <NavLink to="/properties/new-list" activeclassname="text-blue" onClick={menuHandler}>
+           New Properties
+          </NavLink>
+        </li>
+        <li className="py-3  hover:text-blue" >
           <NavLink to="/home" activeclassname="text-blue" onClick={menuHandler}>
            Blogs
           </NavLink>
         </li>
-  
+        <li className="py-3  hover:text-blue" >
+          <NavLink to="/messages" activeclassname="text-blue" onClick={menuHandler}>
+           Messages
+          </NavLink>
+        </li>
       </ul>
       <div className="flex justify-between py-3 pl-6">
         <button
@@ -114,10 +123,21 @@ const MainHeader = () => {
             </NavLink>
           </li>
           <li className=" hover:text-blue">
-            <NavLink to="/blogs" activeclassname="text-blue" className="px-4">
-              Blogs
+            <NavLink to="/properties/new-list" activeclassname="text-blue" className="px-4">
+             New Properties
             </NavLink>
           </li>
+          <li className=" hover:text-blue">
+            <NavLink to="/blogs" activeclassname="text-blue" className="px-4">
+                       Blogs
+            </NavLink>
+          </li>
+          <li className=" hover:text-blue">
+            <NavLink to="/messages" activeclassname="text-blue" className="px-4">
+              Messages
+            </NavLink>
+          </li>
+          
         </ul>
         <div className="pl-18 hidden lg:flex ">
           <button

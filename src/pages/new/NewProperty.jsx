@@ -59,6 +59,7 @@ const NewUser = () => {
     { value: "FLAT", label: "FLAT" },
     { value: "KOTHI", label: "KOTHI" },
     { value: "PLOT", label: "PLOT" },
+    { value: "COMMERCIAL", label: "COMMERCIAL" },
   ];
   
   const options2 = [
@@ -123,6 +124,10 @@ const NewUser = () => {
   
   const imageUpload = () => {
        const formData = new FormData()
+       
+       if(filesUploads.length == 1){
+        toast.error('Please select at least Two Images')
+       }
   
       for(let i = 0; i < filesUploads.length; i++){
         formData.append('file', filesUploads[i])
@@ -131,7 +136,7 @@ const NewUser = () => {
     axios
       .post(environment.baseUrl + "api/v1/property/uploadImage", formData)
       .then((res) => {
-        console.log('lkjwgdjwegdlgbdiugd',res);
+ 
         if (res.data.code === 200) {
           toast.success(res.data.message);
           setImage(res.data.data)
@@ -159,7 +164,7 @@ const NewUser = () => {
           <img
               src={
                 image
-                  ? environment.baseUrl+ 'upload/properties/'+ image
+                  ? environment.baseUrl+ 'upload/properties/'+ image[0]
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
